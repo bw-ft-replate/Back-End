@@ -16,10 +16,11 @@ module.exports = {
 // }
 
 async function add(user) {
-    console.log("got here")
-    newUser = {username: user.username, password:user.password}
+
+    console.log("donor in model:",user)
+    
   try {
-    const [id] = await db("donors").insert(newUser, "id");
+    const [id] = await db("donors").insert(user, "id");
     console.log(id)
     return findById(id);
   } catch (error) {
@@ -29,5 +30,6 @@ async function add(user) {
 }
 
 function findById(id) {
-  return db("donors").where({ id }).first();
+    console.log("FindbyID id: ",id)
+  return db("donors").where("donor-id",id).first();
 }
