@@ -20,7 +20,7 @@ async function add(user) {
     console.log("donor in model:",user)
     
   try {
-    const [id] = await db("donors").insert(user, "id");
+    const [id] = await db("donors").insert(user, "donor-id");
     console.log(id)
     return findById(id);
   } catch (error) {

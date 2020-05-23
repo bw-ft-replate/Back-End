@@ -20,20 +20,19 @@ router.post('/register',credentialValidater, (req, res) => {
                 "business-address":userDetails["business-address"],
                 "business-phone":userDetails["business-phone"]
             }
-            console.log("donor in router",donor)
             donorRegister(donor);
         } else {
             res.status(400).json({message: "Error while registering donor, missing required: business-name/business-address/business-phone"})
         }
     } else {
-        if(userDetails["volunteer-name"] && userDetails["volunteer-address"] && userDetails["volunteer-phone"]){
+        if(userDetails["volunteer-name"] && userDetails["volunteer-phone"]){
             const volunteer = {
                 username: userDetails.username,
                 password: userDetails.password,
                 "volunteer-name": userDetails["volunteer-name"],
-                "volunteer-address":userDetails["volunteer-address"]
+                "volunteer-phone":userDetails["volunteer-phone"]
             }
-            donorRegister(volunteer);
+            volunteerRegister(volunteer);
         } else {
             res.status(400).json({message: "Error while registering volunteer, missing required: volunteer-name/volunteer-address"})
         }
@@ -49,12 +48,11 @@ function donorRegister(user){
             res.status(201).json(user)
         })
         .catch(err => {
-            console.log("I'm a naughty boy and I'm returning 500")
             res.status(500).json({error: "Database error while registering donor", error:err})
         })
 }
 
-function volunteerRegister(){
+function volunteerRegister(user){
     Volunteers.add(user)
     .then(user=>{
         res.status(201).json(user)
