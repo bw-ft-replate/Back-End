@@ -1,4 +1,52 @@
 # Back-End
+
+###Deployed at: https://replater.herokuapp.com
+
+As of now register is working: 
+
+route: /api/auth/register
+
+key|type|example|donor|volunteer
+---|---|---|---|---
+username|string|gord|yes|yes
+password|string|hard2guess|yes|yes
+role|string|donor/business|yes|no
+name|string|ACNE|yes|yes
+phone|string|000 000 0000|yes|yes
+address|string|1 roundabout way|yes|no
+
+
+
+**If you provide any string other than donor or business for role, it will route to volunteer signup**
+
+If you provide string donor or business for role it will register a donor and return an object like so:
+{
+    "donor-id": 1,
+    "username": "gord",
+    "password": "890123098HASHEDPASSWORD70958289341234",
+    "business-name": "User Donor Enterprises",
+    "business-phone": "123 456 789",
+    "business-address": "1 User Way, Userville"
+}
+
+providing any other string for role will look like this: 
+
+{
+    "volunteer-id": 2,
+    "username": "gord",
+    "password": "890123098HASHEDPASSWORD70958289341234",
+    "volunteer-name": "User Donor Enterprises",
+    "volunteer-phone": "123 456 789"
+}
+
+Usernames have to be unique per table, so there can only be one "gord" donor and one "gord" volunteer.
+If you try register another user with the same username it will throw a 500 error. For now, under detail, you will see why.
+
+
+
+
+
+# In Progress:
 API Back-End for Replate
 url/api/
 url/api/signup/donors
