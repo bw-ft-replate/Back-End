@@ -4,7 +4,6 @@ const secrets = require("./secrets")
 const Volunteers = require("../routers/volunteers/volunteers-model")
 const Donors = require("../routers/donors/donors-model.js")
 const Pickups = require("../routers/pickups/pickups-model.js")
-const tokenGenerator = require ("./tokengenerator")
 
 const jwt = require("jsonwebtoken")
 
@@ -37,7 +36,6 @@ router.post('/register',credentialValidater, (req, res) => {
         } else {
             res.status(400).json({message: "Error while registering volunteer, missing required: volunteer-name/volunteer-address"})
         }
-
     }
 
     function donorRegister(user){
@@ -69,24 +67,29 @@ router.post('/register',credentialValidater, (req, res) => {
 router.post("/login",credentialValidater,(req,res)=>{
     const {username, password, role} = req.body;
     console.log("login username:",username,"   password:",password)
-    // Donors.findByUsername(username).then(donors =>{
-    //     console.log("found donor", donors)
-    // })
-    // .catch(err => console.log(err))
-
     if (username && password){
         if (role === "donor" || role==="business"){
             Donors.findByUsername(username).then(donor => {
-                res.status(201).json(donor)
+                if (donor && bcryptjs.compareSync(password, donor.password)){
+                    const donorToken = generateToken(donor["donor-id"], "donor")
+                    res.status(201).json({message: "Success", token: donorToken})
+                } else {
+                    res.status(401).json({message: "Password is incorrect"})
+                }
+                
             })
             .catch(err => {
                 res.status(500).json({error:"Unable to find donor by the username"+username,err})
             })
         } else {
-            Volunteers.findByUsername(username).then(volunteer => {
-
-                res.status(201).json(volunteer)
-                
+            console.log("Its a volunteer",username,password,role)
+            Volunteers.findByUsername(username).then(volunteer => {  
+                if (donor && bcryptjs.compareSync(password, donor.password)){
+                    const volunteerToken = generateToken(volunteer.volunteer-id)
+                    res.status(201).json({message: "Success", token: volunteerToken})
+                } else {
+                    res.status(401).json({message: "Password is incorrect"})
+                }
             })
             .catch(err => {
                 res.status(500).json({error:"Unable to find volunteer by the username"+username,err})
@@ -96,8 +99,6 @@ router.post("/login",credentialValidater,(req,res)=>{
         res.status(400).json({message: "please enter a username/password"})
     }
     
-    
-
 })
 
 function credentialValidater(req,res,next) {
@@ -106,6 +107,19 @@ function credentialValidater(req,res,next) {
     } else {
         res.status(400).json({message:"Please provide valid username/password/role"})
     }
+}
+
+function generateToken(id,role){
+    console.log("this is messing up")
+    const payload = {
+        userId : id,
+        role: role
+    }
+    const secret = secrets.jwtSecret;
+    const options = {
+        expiresIn:"1d"
+    }
+    return jwt.sign(payload, secret, options)
 }
 
   
