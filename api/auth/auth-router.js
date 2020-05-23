@@ -39,10 +39,8 @@ router.post('/register',credentialValidater, (req, res) => {
     }
 
     function donorRegister(user){
-        console.log("donorRegister()")
         Donors.add(user)
             .then(user=>{
-                console.log({user})
                 res.status(201).json(user)
             })
             .catch(err => {
@@ -66,7 +64,6 @@ router.post('/register',credentialValidater, (req, res) => {
 
 router.post("/login",credentialValidater,(req,res)=>{
     const {username, password, role} = req.body;
-    console.log("login username:",username,"   password:",password)
     if (username && password){
         if (role === "donor" || role==="business"){
             Donors.findByUsername(username).then(donor => {
@@ -82,7 +79,6 @@ router.post("/login",credentialValidater,(req,res)=>{
                 res.status(500).json({error:"Unable to find donor by the username"+username,err})
             })
         } else {
-            console.log("Its a volunteer",username,password,role)
             Volunteers.findByUsername(username).then(volunteer => {  
                 if (donor && bcryptjs.compareSync(password, donor.password)){
                     const volunteerToken = generateToken(volunteer.volunteer-id)
@@ -110,7 +106,6 @@ function credentialValidater(req,res,next) {
 }
 
 function generateToken(id,role){
-    console.log("this is messing up")
     const payload = {
         userId : id,
         role: role

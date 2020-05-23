@@ -3,17 +3,7 @@ const bcryptjs = require("bcryptjs")
 const secrets = require("../../auth/secrets")
 const Donors = require("./donors-model.js")
 const jwt = require("jsonwebtoken")
+const authenticator = require("../../auth/authenticator")
 
-function generateToken(user){
-    const payload = {
-        userId : user.id,
-        username : user.username
-    }
-    const secret = secrets.jwtSecret;
-    const options = {
-        expiresIn:"1d"
-    }
-    return jwt.sign(payload, secret, options)
-  }
   
-  module.exports = router;
+module.exports = router;
