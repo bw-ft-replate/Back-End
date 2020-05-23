@@ -1,10 +1,8 @@
-
-
-
-function generateToken(user){
+module.exports = (user) => {
     const payload = {
         userId : user.id,
-        username : user.username
+        username : user.username,
+        role: user.role
     }
     const secret = secrets.jwtSecret;
     const options = {

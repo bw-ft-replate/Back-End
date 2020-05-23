@@ -4,6 +4,7 @@ const secrets = require("./secrets")
 const Volunteers = require("../routers/volunteers/volunteers-model")
 const Donors = require("../routers/donors/donors-model.js")
 const Pickups = require("../routers/pickups/pickups-model.js")
+const tokenGenerator = require ("./tokengenerator")
 
 const jwt = require("jsonwebtoken")
 
@@ -39,36 +40,65 @@ router.post('/register',credentialValidater, (req, res) => {
 
     }
 
+    function donorRegister(user){
+        console.log("donorRegister()")
+        Donors.add(user)
+            .then(user=>{
+                console.log({user})
+                res.status(201).json(user)
+            })
+            .catch(err => {
+                res.status(500).json({error: "Database error while registering donor", error:err})
+            })
+    }
 
-function donorRegister(user){
-    console.log("donorRegister()")
-    Donors.add(user)
+    function volunteerRegister(user){
+        Volunteers.add(user)
         .then(user=>{
-            console.log({user})
             res.status(201).json(user)
         })
         .catch(err => {
-            res.status(500).json({error: "Database error while registering donor", error:err})
+            res.status(500).json({error: "Database error while registering volunteer"})
         })
-}
+    }
 
-function volunteerRegister(user){
-    Volunteers.add(user)
-    .then(user=>{
-        res.status(201).json(user)
-    })
-    .catch(err => {
-        res.status(500).json({error: "Database error while registering volunteer"})
-    })
-}
-      
+});
+
+
+
+router.post("/login",credentialValidater,(req,res)=>{
+    const {username, password, role} = req.body;
+    console.log("login username:",username,"   password:",password)
+    // Donors.findByUsername(username).then(donors =>{
+    //     console.log("found donor", donors)
+    // })
+    // .catch(err => console.log(err))
+
+    if (username && password){
+        if (role === "donor" || role==="business"){
+            Donors.findByUsername(username).then(donor => {
+                res.status(201).json(donor)
+            })
+            .catch(err => {
+                res.status(500).json({error:"Unable to find donor by the username"+username,err})
+            })
+        } else {
+            Volunteers.findByUsername(username).then(volunteer => {
+
+                res.status(201).json(volunteer)
+                
+            })
+            .catch(err => {
+                res.status(500).json({error:"Unable to find volunteer by the username"+username,err})
+            })
+        }        
+    } else {
+        res.status(400).json({message: "please enter a username/password"})
+    }
     
     
-          
 
-      
-  });
-
+})
 
 function credentialValidater(req,res,next) {
     if (req.body.username && req.body.password && req.body.role && typeof req.body.password === "string"){
@@ -76,7 +106,7 @@ function credentialValidater(req,res,next) {
     } else {
         res.status(400).json({message:"Please provide valid username/password/role"})
     }
-    
-}  
+}
+
   
 module.exports = router;
