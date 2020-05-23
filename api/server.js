@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 // const authenticate = require('./auth/authenticator');
+const authRouter = require("./auth/auth-router")
 const donorRouter = require('./routers/donors/donors-router');
 const volunteerRouter = require('./routers/volunteers/volunteers-router');
 const pickupRouter = require('./routers/pickups/pickups-router');
@@ -14,6 +15,7 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
+server.use('/api/auth', authRouter);
 server.use('/api/donors', donorRouter);
 server.use('/api/volunteers', volunteerRouter);
 server.use('/api/pickups', pickupRouter);
