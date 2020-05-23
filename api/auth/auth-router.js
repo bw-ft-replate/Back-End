@@ -12,25 +12,25 @@ router.post('/register',credentialValidater, (req, res) => {
     const rounds = process.env.BCRYPT_ROUNDS || 2;
     userDetails.password = bcryptjs.hashSync(userDetails.password, rounds);
     if(userDetails.role === "donor" || userDetails.role === "business"){ 
-        if(userDetails["business-name"] && userDetails["business-address"] && userDetails["business-phone"]){
+        if(userDetails["name"] && userDetails["address"] && userDetails["phone"]){
             const donor = {
                 username: userDetails.username,
                 password: userDetails.password,
-                "business-name": userDetails["business-name"],
-                "business-address":userDetails["business-address"],
-                "business-phone":userDetails["business-phone"]
+                "business-name": userDetails["name"],
+                "business-address":userDetails["address"],
+                "business-phone":userDetails["phone"]
             }
             donorRegister(donor);
         } else {
             res.status(400).json({message: "Error while registering donor, missing required: business-name/business-address/business-phone"})
         }
     } else {
-        if(userDetails["volunteer-name"] && userDetails["volunteer-phone"]){
+        if(userDetails["name"] && userDetails["phone"]){
             const volunteer = {
                 username: userDetails.username,
                 password: userDetails.password,
-                "volunteer-name": userDetails["volunteer-name"],
-                "volunteer-phone":userDetails["volunteer-phone"]
+                "volunteer-name": userDetails["name"],
+                "volunteer-phone":userDetails["phone"]
             }
             volunteerRegister(volunteer);
         } else {
