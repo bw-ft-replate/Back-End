@@ -3,17 +3,30 @@ const bcryptjs = require("bcryptjs")
 const secrets = require("../../auth/secrets")
 const Pickups = require("./pickups-model.js")
 const jwt = require("jsonwebtoken")
+const moment = require("moment")
+const authenticator = require("../../auth/authenticator")
 
-function generateToken(user){
-    const payload = {
-        userId : user.id,
-        username : user.username
-    }
-    const secret = secrets.jwtSecret;
-    const options = {
-        expiresIn:"1d"
-    }
-    return jwt.sign(payload, secret, options)
-  }
+router.get("/",(req,res)=>{
+    Pickups.find().then(allPickups => {
+        
+        res.status(200).json(allPickups)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
+    console.log(moment("23-03-2020","DD-MM-YYYY").format('ll'))
+})
+
+router.post("/",(req,res)=>{
+
+    const concatPickup = {...req.body, "pickup-date": req.body["pickup-date"]}
+    Pickups.add(concatPickup).then(newPickup => {
+        res.status(200).json(newPickup)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
+})
+
   
-  module.exports = router;
+module.exports = router;
