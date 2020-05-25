@@ -7,14 +7,24 @@ const jwt = require("jsonwebtoken")
 const moment = require("moment")
 const authenticator = require("../../auth/authenticator")
 
-router.get("/", (req,res)=>{
-    DonorVolunteerPickup.find().then(allDonorVolunteerPickups => {
-        
-        res.status(200).json(allDonorVolunteerPickups)
+router.get("/", authenticator, (req,res)=>{
+
+    let role;
+    if(req.decodedToken.role === "donor" || req.decodedToken.role === "business"){
+        console.log(req.decodedToken.role)
+        role = "donor"
+    } else {
+        console.log(req.decodedToken.role)
+        role = "volunteer"
+    }
+
+    DonorVolunteerPickup.findById(role,req.decodedToken.userId).then(donorVolunteerPickups => {
+        res.status(200).json(donorVolunteerPickups)
     })
     .catch(err => {
         res.status(500).json(err)
     })
+    
 })
 
 // router.post("/", authenticator, (req,res)=>{
