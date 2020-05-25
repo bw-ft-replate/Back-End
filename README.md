@@ -2,7 +2,9 @@
 
 ###  Deployed at: https://replater.herokuapp.com  ###
 
-As of now register is working: 
+# Register
+
+As of now **register** is working: 
 
 route: /api/auth/register
 
@@ -14,8 +16,6 @@ role|string|donor/business|yes|no
 name|string|ACNE|yes|yes
 phone|string|000 000 0000|yes|yes
 address|string|1 roundabout way|yes|no
-
-
 
 **If you provide any string other than donor or business for role, it will route to volunteer signup**
 
@@ -46,27 +46,46 @@ providing any other string for role will look like this:
 Usernames have to be unique per table, so there can only be one "gord" donor and one "gord" volunteer.
 If you try register another user with the same username it will throw a 500 error. For now, under detail, you will see why.
 
+# Login
 
+As of now **login** is working
 
+route: /api/auth/login
 
+key | type | example
+---|---|---
+username | string | gord
+password | string | gord
+role     | string | donor
+
+If you enter:
+```
+{
+	"username": "George",
+	"password": "validPassword",
+	"role": "donor",
+}
+```
+Server will return: 
+```
+{
+    "message": "Success",
+    "token": h"eyJhbGciOiJIaUzI1NiIshInR5cCI6IkpXgdfsf2gAVCJ9.eyJ31c2VySWQiOjM0LCJyb232xlIjoiZ3G9ub3IiLCkJpYXQiOjE1OTAzNja3cwOTAsIlgmV4cCI6MTU5MDQ1123aMzQ5MH0.PD5qaooH2wLuasdf2223hZK72uIgpv2Gas123Fj_9ExDqvCd6yAoskhjFFr4"
+}
+```
 
 # In Progress:
-API Back-End for Replate
-url/api/
-url/api/signup/donors
-url/api/signup/volunteers           
-url/api/login/donors                token
-url/api/login/volunteers            token
-url/api/pickups/                    (all) volunteer view
-url/api/pickups/:id                 (specific pickups) 
-url/api/volunteers/:id/pickups      volunteer view
-url/api/donor/:id/pickups           donor view
-url/api/donor/:id                   donor-dashboard
-url/api/volunteer/:id               volunteer view
+         
+/api/pickups/                    (all) volunteer view
+/api/pickups/:id                 (specific pickups) 
+/api/volunteers/:id/pickups      volunteer view
+/api/donor/:id/pickups           donor view
+/api/donor/:id                   donor-dashboard
+/api/volunteer/:id               volunteer view
 
-CRUD donors
-CRUD volunteers
-CRUD pickups
+RUD donors
+RUD volunteers
+RUD pickups
 
 DONOR:
 id  username    business-name     address         phone         password
