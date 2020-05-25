@@ -7,9 +7,10 @@ module.exports = {
     findById,
   };
 
-async function add(pickup) {   
+async function add(pickup,donorId) {   
 try {
     const [id] = await db("pickups").insert(pickup, "pickup-id");
+    await db("donor-volunteer-pickup").insert({"donor-id": donorId, "pickup-id":id})
     console.log(id)
     return findById(id);
 } catch (error) {

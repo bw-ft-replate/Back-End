@@ -12,6 +12,7 @@ module.exports = {
 // }
 
 function findByUsername(username){
+  console.log("Find by username",username)
   return db("volunteers").where({username:username}).first();
 }
 
@@ -30,6 +31,6 @@ async function add(user) {
 }
 
 function findById(id) {
-    console.log("FindbyID id: ",id)
+  console.log("Volunteers FindbyID id: ",id)
   return db("volunteers").where("volunteer-id",id).first();
 }

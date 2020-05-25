@@ -80,8 +80,10 @@ router.post("/login",credentialValidater,(req,res)=>{
             })
         } else {
             Volunteers.findByUsername(username).then(volunteer => {  
-                if (donor && bcryptjs.compareSync(password, donor.password)){
-                    const volunteerToken = generateToken(volunteer.volunteer-id)
+                if (volunteer && bcryptjs.compareSync(password, volunteer.password)){
+                    console.log("generating token")
+                    const volunteerToken = generateToken(volunteer["volunteer-id"],"volunteer")
+                    console.log(volunteerToken)
                     res.status(201).json({message: "Success", token: volunteerToken})
                 } else {
                     res.status(401).json({message: "Password is incorrect"})
