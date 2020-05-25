@@ -74,6 +74,46 @@ Server will return:
 }
 ```
 
+# Pickups
+POST for pickups is working. This only works for users logged in as a donor, however, users marked as volunteers will not be able to post.
+
+route: /api/pickups
+
+key | type | example
+---|---|---
+type | string | bread
+amount | string | 12 loaves
+pickup-date | date(yyyy-mm-dd) |  2020-05-25
+
+sending:
+```
+{
+	"type": "Apples",
+	"amount": "1lbs",
+	"pickup-date": "2030-02-20"
+}
+```
+returns
+```
+{
+    "pickup-id": 9,
+    "type": "Apples",
+    "amount": "1lbs",
+    "pickup-date": "2030-02-20T06:00:00.000Z"
+}
+```
+I suggest using [momentjs](https://momentjs.com/) to take the pickup-date and format back to a readable format
+``` 
+const moment = require('moment')
+date = moment('2030-02-20T06:00:00.000Z').format('ll')
+console.log(date) // outputs Feb 20, 2030
+```
+# Donors
+
+as of now get for /api/donor/pickups is working.
+
+this will return a list of pickups where the pickups.donor-id matches the logged in donors id, technically this works for volunteers as well, but there is no way to assign volunteers to pickups yet so it will just return an empty array. 
+
 # In Progress:
          
 /api/pickups/                    (all) volunteer view
