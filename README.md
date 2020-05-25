@@ -70,7 +70,7 @@ Server will return:
 ```
 {
     "message": "Success",
-    "token": h"eyJhbGciOiJIaUzI1NiIshInR5cCI6IkpXgdfsf2gAVCJ9.eyJ31c2VySWQiOjM0LCJyb232xlIjoiZ3G9ub3IiLCkJpYXQiOjE1OTAzNja3cwOTAsIlgmV4cCI6MTU5MDQ1123aMzQ5MH0.PD5qaooH2wLuasdf2223hZK72uIgpv2Gas123Fj_9ExDqvCd6yAoskhjFFr4"
+    "token": "eyJhbGciOiJIaUzI1NiIshInR5cCI6IkpXgdfsf2gAVCJ9.eyJ31c2VySWQiOjM0LCJyb232xlIjoiZ3G9ub3IiLCkJpYXQiOjE1OTAzNja3cwOTAsIlgmV4cCI6MTU5MDQ1123aMzQ5MH0.PD5qaooH2wLuasdf2223hZK72uIgpv2Gas123Fj_9ExDqvCd6yAoskhjFFr4"
 }
 ```
 
