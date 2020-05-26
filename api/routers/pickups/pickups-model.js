@@ -6,6 +6,7 @@ module.exports = {
     //findByUsername,
     findById,
     findUnassigned,
+    update
 
   };
 
@@ -51,3 +52,11 @@ function findById(id) {
   return db("pickups").where("pickup-id",id).first();
 }
 
+function update(changes,id) {
+  return db("pickups")
+  .where("pickup-id",id)
+  .update(changes)
+  .then(() => {
+    return findById(id)
+  })
+}

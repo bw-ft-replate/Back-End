@@ -39,7 +39,29 @@ router.post("/", authenticator, (req,res)=>{
     }
 })
 
-
+router.put("/:id",authenticator,(req,res)=>{
+    if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
+        const {id} = req.params
+        const changes = req.body
+        Pickups.findById(id).then(pickup => {
+            if(pickup){
+                Pickups.update(changes,id).then(updatedPickup => {
+                    res.status(201).json(updatedPickup)
+                })
+                .catch(err => {
+                    res.status(500).json({message: "Error while updating pickup: ",err})
+                })
+            } else {
+                res.status(400).json({message: `Pickup with id ${id} does not exist`})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: "Error while finding that pickup: ",err})
+        })
+    } else {
+        res.status(404).json({error: "Access denied, only donors or businesses can create new pickups."})
+    }
+})
 
   
 module.exports = router;
