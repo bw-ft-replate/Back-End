@@ -54,7 +54,7 @@ router.get("/", authenticator, async (req,res)=>{
                    
                 })
                 .catch( err => {
-                    res.status(500)
+                    res.status(500).json(err)
                 })
             }
             res.status(200).json(donorPickups)
@@ -65,7 +65,9 @@ router.get("/", authenticator, async (req,res)=>{
         DonorVolunteerPickup.findById("volunteer",req.decodedToken.userId).then(volunteerPickups => {
             res.status(200).json(volunteerPickups)
         })
-        .catch()
+        .catch( err => {
+            res.status(500).json(err)
+        })
 
     }
 
