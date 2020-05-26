@@ -220,6 +220,39 @@ returns:
     "updated": 1
 }
 ```
+##### donor put #####
+Donors can now PUT and edit the pickups they have created
+/api/pickups/:id
+
+key | type | example
+---|---|---
+type | string | bread
+amount | string | 12 loaves
+pickup-date | date(yyyy-mm-dd) |  2020-05-25
+
+```
+{
+    "pickup-id": 13,
+    "type": "naan",
+    "amount": "20kg ",
+    "pickup-date": "2020-05-30T05:00:00.000Z"
+}
+```
+put:
+```
+{
+	"type": "oranges"
+}
+```
+returns: 
+```
+{
+    "pickup-id": 13,
+    "type": "oranges",
+    "amount": "20kg ",
+    "pickup-date": "2020-05-30T05:00:00.000Z"
+}
+```
 
 # Donors
 
