@@ -6,7 +6,8 @@ module.exports = {
     //findByUsername,
     findById,
     findByPickupId,
-    updateVolunteer
+    updateVolunteer,
+    remove
   };
 
 
@@ -68,4 +69,8 @@ async function updateVolunteer(id,volunteerId) {
     console.log(error)
     throw error
   }
+}
+
+function remove(id){
+  return db("donor-volunteer-pickup").where("pickup-id",id).del();
 }
