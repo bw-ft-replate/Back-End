@@ -19,9 +19,9 @@ server.use(express.json());
 server.use('/api/auth', authRouter);
 server.use('/api/donors', donorRouter);
 server.use('/api/volunteers', volunteerRouter);
-server.use('/api/pickups', pickupRouter);
-server.use('/api/donors/pickups', donorVolunteerPickupRouter)
-server.use('/api/volunteers/pickups', donorVolunteerPickupRouter)
+server.use('/api/pickups/all', pickupRouter);
+server.use('/api/pickups', donorVolunteerPickupRouter)
+
 
 server.get("/",(req,res)=>{
     res.status(200).json({message:"Welcome to replate back-end check out the docs: https://github.com/bw-ft-replate/Back-End"})
