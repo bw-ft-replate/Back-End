@@ -30,7 +30,14 @@ async function add(user) {
   }
 }
 
-function findById(id) {
-  console.log("Volunteers FindbyID id: ",id)
-  return db("volunteers").where("volunteer-id",id).first();
+async function findById(id) {
+  try {
+    return await db("volunteers").where("volunteer-id",id).first();
+  } catch (error) {
+    console.log(error)
+    throw error;
+}
+
+  
+  
 }
