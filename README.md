@@ -176,6 +176,20 @@ GET request for volunteer:
     }
 ]
 ```
+PUT requests are PARTIALLY working
+
+route: /api/pickups/assign/:id
+
+This is used to update a selected pickup to the logged in VOLUNTEER. This will return an error if a donor or business is logged in (decoded via token)
+
+key | type | example
+---|---|---
+"volunteer-id"|string|"asdf"
+
+The api checks if is a pickup existing with the pickup-id equal to the req.params.id if there is it will then:
+The api checks if the string is null, if it is null, it will remove the currently assigned volunteer-id.
+If it is not null it will assign the currently logged in volunteer to the pickup matching the req.params.id.
+
 
 # Donors
 
