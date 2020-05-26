@@ -1,11 +1,7 @@
 const router = require('express').Router();
-const bcryptjs = require("bcryptjs")
-const secrets = require("../../auth/secrets")
 const Pickups = require("../pickups/pickups-model.js")
 const Volunteers = require("../volunteers/volunteers-model")
 const DonorVolunteerPickup = require ("./donor-volunteer-pickup-model")
-const jwt = require("jsonwebtoken")
-const moment = require("moment")
 const authenticator = require("../../auth/authenticator")
 
 router.post("/", authenticator, (req,res)=>{
@@ -28,21 +24,34 @@ router.get("/", authenticator, async (req,res)=>{
         await DonorVolunteerPickup.findById("donor",req.decodedToken.userId).then( async donorVolunteerPickups => {
            for(const pickup of  donorVolunteerPickups){
                 await Volunteers.findById(pickup["volunteer-id"]).then((volunteer) => {
-                    donorPickups.push({
-                                    "pickup-id": pickup["pickup-id"],
-                                    "type": pickup["type"],
-                                    "amount": pickup["amount"],
-                                    "pickup-date": pickup["pickup-date"],
-                                    "business-name": pickup["business-name"],
-                                    'business-phone': pickup['business-phone'],
-                                    'business-address': pickup['business-address'],
-                                    'volunteer-info': {
-                                        'volunteer-id': volunteer['volunteer-id'],
-                                        'volunteer-name': volunteer['volunteer-name'],
-                                        'volunteer-phone': volunteer['volunteer-phone']
-                                    }   
-                                })
-                    console.log(volunteer)
+                    if(volunteer){
+                        donorPickups.push({
+                            "pickup-id": pickup["pickup-id"],
+                            "type": pickup["type"],
+                            "amount": pickup["amount"],
+                            "pickup-date": pickup["pickup-date"],
+                            "business-name": pickup["business-name"],
+                            'business-phone': pickup['business-phone'],
+                            'business-address': pickup['business-address'],
+                            'volunteer-info': {
+                                'volunteer-id': volunteer['volunteer-id'],
+                                'volunteer-name': volunteer['volunteer-name'],
+                                'volunteer-phone': volunteer['volunteer-phone']
+                            }   
+                        })
+                    } else {
+                        donorPickups.push({
+                        "pickup-id": pickup["pickup-id"],
+                        "type": pickup["type"],
+                        "amount": pickup["amount"],
+                        "pickup-date": pickup["pickup-date"],
+                        "business-name": pickup["business-name"],
+                        'business-phone': pickup['business-phone'],
+                        'business-address': pickup['business-address'],
+                        'volunteer-info': null
+                        })
+                    }
+                   
                 })
                 .catch( err => {
                     res.status(500)
@@ -50,13 +59,13 @@ router.get("/", authenticator, async (req,res)=>{
             }
             res.status(200).json(donorPickups)
         })
-
-        
-        
-    
     } else {
         console.log(req.decodedToken.role)
         role = "volunteer"
+        DonorVolunteerPickup.findById("volunteer",req.decodedToken.userId).then(volunteerPickups => {
+            res.status(200).json(volunteerPickups)
+        })
+        .catch()
 
     }
 

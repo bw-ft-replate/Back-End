@@ -16,6 +16,14 @@ router.get("/", (req,res)=>{
     })
     console.log(moment("23-03-2020","DD-MM-YYYY").format('ll'))
 })
+router.get("/unassigned",(req,res)=> {
+    Pickups.findUnassigned().then(unassignedPickups => {
+        res.status(200).json(unassignedPickups)
+    })
+    .catch(err => {
+        res.status(500).json({message:"There was an error fetching unassigned pickups", err})
+    })
+})
 
 router.post("/", authenticator, (req,res)=>{
     if(req.decodedToken.role === "donor" || req.decodedToken === "business"){

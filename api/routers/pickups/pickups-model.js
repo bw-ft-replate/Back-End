@@ -5,6 +5,7 @@ module.exports = {
     find,
     //findByUsername,
     findById,
+    findUnassigned
   };
 
 async function add(pickup,donorId) {   
@@ -27,7 +28,22 @@ function find() {
 //   return db("donors").where({username:username}).first();
 // }
 
-
+async function findUnassigned() {
+  try {
+    return await  db.select(
+      "dvp.donor-id", "p.pickup-id", "p.type", "p.amount", "p.pickup-date", "d.business-name", "d.business-phone", "d.business-address")
+      .from("donor-volunteer-pickup as dvp")
+      .join("pickups as p", "p.pickup-id","=", "dvp.pickup-id")
+      .join("donors as d", "d.donor-id","=", "dvp.donor-id")
+      .where("dvp.volunteer-id",null)
+  } catch(error){
+    console.log(error)
+    throw error
+  }
+  
+  
+  
+}
 
 function findById(id) {
     console.log("FindbyID id: ",id)
