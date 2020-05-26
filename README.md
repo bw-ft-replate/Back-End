@@ -110,10 +110,15 @@ console.log(date) // outputs Feb 20, 2030
 ```
 
 GET for pickups is working.
-route: /api/pickups
+
+route: /api/pickups/all
 This will return ALL pickups associated with the logged in user.
 If you are a business, this will return the relevant pickup information as well as your information, it will then check to see if there is a volunteer assigned, if there is no volunteer assigned it will return a null value for volunteerInfo
 
+route: /api/pickups/unassigned
+This will return ALL pickups that are not associated with a volunteer. This is for the purpose of displaying a list of available pickups for volunteers to assign themselves to.
+
+route: /api/pickups
 Get request for donor: 
 In the first request the volunteer is assigned, in the second the volunteer is not assigned.
 ```
@@ -145,7 +150,7 @@ In the first request the volunteer is assigned, in the second the volunteer is n
 ]
 
 ```
-
+route: /api/pickups
 GET request for volunteer:
 ```
 [
