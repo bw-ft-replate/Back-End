@@ -23,10 +23,8 @@ router.post("/", authenticator, (req,res)=>{
 })
 
 router.get("/", authenticator, async (req,res)=>{
-
     if(req.decodedToken.role === "donor" || req.decodedToken.role === "business"){
         let donorPickups = []
-        
         await DonorVolunteerPickup.findById("donor",req.decodedToken.userId).then( async donorVolunteerPickups => {
            for(const pickup of  donorVolunteerPickups){
                 await Volunteers.findById(pickup["volunteer-id"]).then((volunteer) => {
@@ -90,45 +88,3 @@ async function getDonorPickups(donorPickups) {
 }
 
 
-
-// .then(volunteerInfo => {
-//     pickupsConcatenated.push(
-//         {
-//             "pickup-id": item["pickup-id"],
-//             "type": item["type"],
-//             "amount": item["amount"],
-//             "pickup-date": item["pickup-date"],
-//             "business-name": item["business-name"],
-//             'business-phone': item['business-phone'],
-//             'business-address': item['business-address'],
-//             'volunteer-info': {
-//                 'volunteer-id': volunteerInfo['volunteer-id'],
-//                 'volunteer-name': volunteerInfo['volunteer-name'],
-//                 'volunteer-phone': volunteerInfo['volunteer-phone']
-//             }   
-//         }
-//     )
-// })
-// .catch(err => {
-//     res.status(500).json(err)
-// })
-
-
-
-
-
-
-    //  return  {
-                //         "pickup-id": item["pickup-id"],
-                //         type: item[type],
-                //         amount: item[amount],
-                //         "pickup-date": item["pickup-date"],
-                //         "business-name": item["business-name"],
-                //         'business-phone': item['business-phone'],
-                //         'business-address': item['business-address'],
-                //         'volunteer-info': {
-                //             'volunteer-id': item['volunteer-info'],
-                //             'volunteer-name': item['volunteer-name'],
-                //             'volunteer-phone': item['volunteer-phone']
-                //         }
-                //     }
