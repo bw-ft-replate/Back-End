@@ -4,19 +4,6 @@ const Volunteers = require("../volunteers/volunteers-model")
 const DonorVolunteerPickup = require ("./donor-volunteer-pickup-model")
 const authenticator = require("../../auth/authenticator")
 
-router.post("/", authenticator, (req,res)=>{
-    if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
-        const concatPickup = {...req.body, "pickup-date": req.body["pickup-date"]}
-        Pickups.add(concatPickup,req.decodedToken.userId).then(newPickup => {
-            res.status(200).json(newPickup)
-        })
-        .catch(err => {
-            res.status(500).json(err)
-        })
-    } else {
-        res.status(404).json({error: "Access denied, only donors or businesses can create new pickups."})
-    }
-})
 
 router.get("/", authenticator, async (req,res)=>{
     if(req.decodedToken.role === "donor" || req.decodedToken.role === "business"){
@@ -71,6 +58,40 @@ router.get("/", authenticator, async (req,res)=>{
 
     }
 
+    
+})
+
+router.put("/assign/:id",authenticator, (req,res)=>{
+    if(req.decodedToken.role === "donor" || req.decodedToken.role === "business"){
+        res.status(403).json({message: "Donors can not assign volunteers on pickups, please log back in as a volunteer and assign pickups to yourself"})
+    } else {
+        Pickups.findById(req.params.id).then(pickup => {
+            if (pickup){
+                console.log(pickup)
+                console.log("null value:",req.body["volunteer-id"])
+                if(req.body["volunteer-id"]){
+                    DonorVolunteerPickup.updateVolunteer(req.params.id, req.decodedToken.userId)
+                    .then(updated=>{
+                        console.log(updated)
+                        res.status(201).json({message: `Pickup ${req.params.id} was successfully assigned to user: ${req.decodedToken.userId}`,updated})
+                    })
+                } else {
+                    
+                    DonorVolunteerPickup.updateVolunteer(req.params.id, null)
+                    .then(updated=>{
+                        res.status(201).json({message: `Pickup ${req.params.id} was successfully assigned to no user`,updated})
+                    })
+                }
+                
+            } else {
+                res.status(404).json({message: "Could not find a pickup with the id: "+req.params.id})
+            }
+            
+    
+        }).catch(err => {
+            res.status(500).json({message: "Error while posting to database: ",err})
+        })
+    }
     
 })
   

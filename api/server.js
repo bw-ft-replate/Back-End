@@ -19,8 +19,8 @@ server.use(express.json());
 server.use('/api/auth', authRouter);
 server.use('/api/donors', donorRouter);
 server.use('/api/volunteers', volunteerRouter);
-server.use('/api/pickups/all', pickupRouter);
-server.use('/api/pickups', donorVolunteerPickupRouter)
+// server.use('/api/pickups/all', pickupRouter);
+server.use('/api/pickups', donorVolunteerPickupRouter, pickupRouter)
 
 
 server.get("/",(req,res)=>{
