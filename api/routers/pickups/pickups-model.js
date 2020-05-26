@@ -6,6 +6,7 @@ module.exports = {
     //findByUsername,
     findById,
     findUnassigned,
+    update
 
   };
 
@@ -40,14 +41,19 @@ async function findUnassigned() {
   } catch(error){
     console.log(error)
     throw error
-  }
-  
-  
-  
+  }  
 }
 
 function findById(id) {
-    console.log("FindbyID id: ",id)
+  console.log("FindbyID id: ",id)
   return db("pickups").where("pickup-id",id).first();
 }
 
+function update(changes,id) {
+  return db("pickups")
+  .where("pickup-id",id)
+  .update(changes)
+  .then(() => {
+    return findById(id)
+  })
+}

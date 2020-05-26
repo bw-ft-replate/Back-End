@@ -5,6 +5,7 @@ module.exports = {
     find,
     //findByUsername,
     findById,
+    findByPickupId,
     updateVolunteer
   };
 
@@ -14,12 +15,25 @@ function find() {
   return db("donor-volunteer-pickup");
 }
 
+async function findByPickupId(id){
+  try {
+    const data = await db("donor-volunteer-pickup").where("pickup-id",id).first();
+    return data
+  } catch(error){
+    console.log(error)
+    throw error
+  }
+  
+
+}
+
 async function findById(role,id) {
+  console.log("Finding",id,role)
   let idType
   let tableName
   try {
     if (role === "donor" || role === "business"){
-      console.log("")
+      console.log("it's a donor")
       idType = "donor-id"
       tableName = "donors"
       return await db.select("*")
@@ -48,7 +62,6 @@ async function findById(role,id) {
 }
 
 async function updateVolunteer(id,volunteerId) {
-  console.log("id",id,"volunteerId",volunteerId)
   try {
     return await db("donor-volunteer-pickup").where("pickup-id", id).update("volunteer-id", volunteerId)
   } catch(error){
