@@ -65,26 +65,3 @@ router.get("/", authenticator, async (req,res)=>{
   
 module.exports = router;
 
-
-async function getDonorPickups(donorPickups) {
-
-    let returnedArray =[]
-
-    await donorPickups.forEach((item,index) => {
-        console.log("item", item)
-        // const volunteerInfo = Volunteers.findById(item["volunteer-id"]) 
-        Volunteers.findById(item["volunteer-id"]).then((volunteer) => {
-            returnedArray.push(volunteer)
-            console.log(volunteer)
-        })
-        .catch( err => {
-            res.status(500)
-        })
-        // returnedArray.push(volunteerInfo)
-    })
-
-    console.log("Returned array",returnedArray)
-    return returnedArray
-}
-
-
