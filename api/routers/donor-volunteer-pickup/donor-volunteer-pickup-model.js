@@ -29,12 +29,12 @@ async function findById(role,id) {
   
     } else {
       idType = "volunteer-id"
-      tableName = "volunteers"
-      return await db.select("*")
-      .from("donor-volunteer-pickup")
-      .join("pickups", "pickups.pickup-id", "=", "donor-volunteer-pickup.pickup-id")
-      .join("donors", "donors.donor-id", "=", "donor-volunteer-pickup.donor-id")
-      .join("volunteers", "volunteers.volunteer-id", "=", "donor-volunteer-pickup.volunteer-id") 
+      tableName = "v"
+      return await db.select("p.pickup-id","p.type","p.amount","p.pickup-date","d.donor-id","d.business-name","d.business-address","d.business-phone")
+      .from("donor-volunteer-pickup as dvp")
+      .join("pickups as p", "p.pickup-id", "=", "dvp.pickup-id")
+      .join("donors as d", "d.donor-id", "=", "dvp.donor-id")
+      .join("volunteers as v", "v.volunteer-id", "=", "dvp.volunteer-id") 
       .where(`${tableName}.${idType}`, id)
   
     }
