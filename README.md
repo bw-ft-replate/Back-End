@@ -190,6 +190,33 @@ The api checks if is a pickup existing with the pickup-id equal to the req.param
 The api checks if the string is null, if it is null, it will remove the currently assigned volunteer-id.
 If it is not null it will assign the currently logged in volunteer to the pickup matching the req.params.id.
 
+PUT /api/pickups/assign/7 LOGGED IN AS volunteer
+Body:
+```
+{
+	"volunteer-id": "asdf"
+}
+```
+returns
+```
+{
+    "message": "Pickup 7 was successfully assigned to user: 7",
+    "updated": 1
+}
+```
+Body: 
+```
+{
+	"volunteer-id": null
+}
+```
+returns:
+```
+{
+    "message": "Pickup 7 was successfully assigned to no user",
+    "updated": 1
+}
+```
 
 # Donors
 
