@@ -75,7 +75,8 @@ Server will return:
 ```
 
 # Pickups
-POST for pickups is working. This only works for users logged in as a donor, however, users marked as volunteers will not be able to post.
+#### POST #### 
+For pickups is working. This only works for users logged in as a donor, however, users marked as volunteers will not be able to post.
 
 route: /api/pickups
 
@@ -109,7 +110,8 @@ date = moment('2030-02-20T06:00:00.000Z').format('ll')
 console.log(date) // outputs Feb 20, 2030
 ```
 
-GET for pickups is working.
+#### GET ####
+for pickups is working.
 
 route: /api/pickups/all
 This will return ALL pickups associated with the logged in user.
@@ -176,7 +178,8 @@ GET request for volunteer:
     }
 ]
 ```
-PUT requests are PARTIALLY working
+#### PUT ####
+requests are PARTIALLY working
 
 route: /api/pickups/assign/:id
 
