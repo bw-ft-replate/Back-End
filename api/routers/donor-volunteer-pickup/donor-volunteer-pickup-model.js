@@ -5,6 +5,7 @@ module.exports = {
     find,
     //findByUsername,
     findById,
+    updateVolunteer
   };
 
 
@@ -44,4 +45,14 @@ async function findById(role,id) {
     throw error
   }
   
+}
+
+async function updateVolunteer(id,volunteerId) {
+  console.log("id",id,"volunteerId",volunteerId)
+  try {
+    return await db("donor-volunteer-pickup").where("pickup-id", id).update("volunteer-id", volunteerId)
+  } catch(error){
+    console.log(error)
+    throw error
+  }
 }

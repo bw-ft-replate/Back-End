@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken")
 const moment = require("moment")
 const authenticator = require("../../auth/authenticator")
 
-router.get("/", (req,res)=>{
+router.get("/all", (req,res)=>{
     Pickups.find().then(allPickups => {
         
         res.status(200).json(allPickups)
@@ -32,12 +32,14 @@ router.post("/", authenticator, (req,res)=>{
             res.status(200).json(newPickup)
         })
         .catch(err => {
-            res.status(500).json(err)
+            res.status(500).json({message: "Error while posting to database: ",err})
         })
     } else {
         res.status(404).json({error: "Access denied, only donors or businesses can create new pickups."})
     }
 })
+
+
 
   
 module.exports = router;

@@ -5,7 +5,8 @@ module.exports = {
     find,
     //findByUsername,
     findById,
-    findUnassigned
+    findUnassigned,
+
   };
 
 async function add(pickup,donorId) {   
@@ -49,3 +50,4 @@ function findById(id) {
     console.log("FindbyID id: ",id)
   return db("pickups").where("pickup-id",id).first();
 }
+
