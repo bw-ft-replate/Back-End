@@ -108,24 +108,80 @@ const moment = require('moment')
 date = moment('2030-02-20T06:00:00.000Z').format('ll')
 console.log(date) // outputs Feb 20, 2030
 ```
+
+GET for pickups is working.
+route: /api/pickups
+This will return ALL pickups associated with the logged in user.
+If you are a business, this will return the relevant pickup information as well as your information, it will then check to see if there is a volunteer assigned, if there is no volunteer assigned it will return a null value for volunteerInfo
+
+Get request for donor: 
+In the first request the volunteer is assigned, in the second the volunteer is not assigned.
+```
+[
+    {
+        "pickup-id": 8,
+        "type": "Apples",
+        "amount": "1lbs",
+        "pickup-date": "2030-02-20T06:00:00.000Z",
+        "business-name": "User Donor Enterprises",
+        "business-phone": "123 456 789",
+        "business-address": "1 User Way, Userville",
+        "volunteer-info": {
+            "volunteer-id": 7,
+            "volunteer-name": "User Donor Enterprises",
+            "volunteer-phone": "123 456 789"
+        }
+    },
+    {
+        "pickup-id": 10,
+        "type": "banana bread ",
+        "amount": "20 loaves ",
+        "pickup-date": "2020-05-30T05:00:00.000Z",
+        "business-name": "User Donor Enterprises",
+        "business-phone": "123 456 789",
+        "business-address": "1 User Way, Userville",
+        "volunteer-info": null
+    }
+]
+
+```
+
+GET request for volunteer:
+```
+[
+    {
+        "pickup-id": 7,
+        "type": "Apples",
+        "amount": "1lbs",
+        "pickup-date": "2030-02-20T06:00:00.000Z",
+        "donor-id": 1,
+        "business-name": "User Donor Enterprises",
+        "business-address": "1 User Way, Userville",
+        "business-phone": "123 456 789"
+    },
+    {
+        "pickup-id": 6,
+        "type": "Apples",
+        "amount": "1lbs",
+        "pickup-date": "2030-02-20T06:00:00.000Z",
+        "donor-id": 1,
+        "business-name": "User Donor Enterprises",
+        "business-address": "1 User Way, Userville",
+        "business-phone": "123 456 789"
+    }
+]
+```
+
 # Donors
 
-as of now get for /api/donor/pickups is working.
-
-this will return a list of pickups where the pickups.donor-id matches the logged in donors id, technically this works for volunteers as well, but there is no way to assign volunteers to pickups yet so it will just return an empty array. 
+# Volunteers
 
 # In Progress:
-         
-/api/pickups/                    (all) volunteer view
-/api/pickups/:id                 (specific pickups) 
-/api/volunteers/:id/pickups      volunteer view
-/api/donor/:id/pickups           donor view
-/api/donor/:id                   donor-dashboard
-/api/volunteer/:id               volunteer view
+
 
 RUD donors
 RUD volunteers
-RUD pickups
+UD pickups
 
 DONOR:
 id  username    business-name     address         phone         password
@@ -145,24 +201,3 @@ VOLUNTEER-DONOR-PICKUP
 
 
 Pickup of apples, belongs to gordonenterprises(donor), assigned to kateenterprises(volunteer), to be picked up by 1 april 2020, gordonenterprises address, gordonenterprises phone number, kateenterprises phone number
-
-getVolunteer(id):   username, volunteer-name, volunteer-phone, pickups: [{pickup-id, type, amount, pickup-date, business-address, business-name}]
-getDonor(id):       username, donor-name, donor-phone, donor-adress, pickups: [{pickup-id, type, amount, pickup-date, business-address, volunteer-name}]
-getPickup(id):      type, amount, pickup-date, volunteer-name, volunteer-phone, business-name, business-phone, business-address
-
-postVolunteer():    username, password, volunter-name, volunteer-phone-number, 
-postBusiness():     username, password, business-name, business-phone-number, business-address
-postPickup():       type, amount, pickup-date
-
-updateVolunteer(id):                  volunteer-name, volunteer-phone-number                                validation must be this volunteer
-updateBusiness(id):                   business-name, business-phone-number, business-address                validation must be this busines
-updatePickup(pickup-id):              type, amount, pickup-date                                             validation must be business-id belonging to pickup-id
-updateDonorVolunteerPickup(volunteer-id,pickup-id):                                                         validation must be volunteer-id belonging to pickup-id
-
-deleteVolunteer():                                                                                          validation must be this volunteer
-deleteBusiness():                                                                                           validation must be this busines
-deletePickup():                                                                                             validation must be business-id belonging to pickup-id
-
-url/api/volunteer/1
-kate kateenterprises 090-12389123  
-        pickup: 1lb, of apples due 1, april2020, business-name
