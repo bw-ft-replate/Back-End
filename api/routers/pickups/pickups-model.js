@@ -41,14 +41,11 @@ async function findUnassigned() {
   } catch(error){
     console.log(error)
     throw error
-  }
-  
-  
-  
+  }  
 }
 
 function findById(id) {
-    console.log("FindbyID id: ",id)
+  console.log("FindbyID id: ",id)
   return db("pickups").where("pickup-id",id).first();
 }
 
