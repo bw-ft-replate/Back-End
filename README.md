@@ -203,7 +203,7 @@ Body:
 returns
 ```
 {
-    "message": "Pickup 7 was successfully assigned to user: 7",
+    "message": "Pickup 7 was successfully assigned to user: 3",
     "updated": 1
 }
 ```
