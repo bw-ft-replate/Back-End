@@ -6,7 +6,8 @@ module.exports = {
     //findByUsername,
     findById,
     findUnassigned,
-    update
+    update,
+    remove
 
   };
 
@@ -56,4 +57,8 @@ function update(changes,id) {
   .then(() => {
     return findById(id)
   })
+}
+
+function remove(id){
+  return db("pickups").where("pickup-id",id).del();
 }

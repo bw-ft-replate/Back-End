@@ -67,8 +67,6 @@ router.put("/assign/:id",authenticator, (req,res)=>{
     } else {
         Pickups.findById(req.params.id).then(pickup => {
             if (pickup){
-                console.log(pickup)
-                console.log("null value:",req.body["volunteer-id"])
                 if(req.body["volunteer-id"]){
                     DonorVolunteerPickup.updateVolunteer(req.params.id, req.decodedToken.userId)
                     .then(updated=>{
