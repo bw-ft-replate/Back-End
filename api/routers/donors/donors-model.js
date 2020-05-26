@@ -5,6 +5,7 @@ module.exports = {
     // find,
     findByUsername,
     findById,
+    findPickupsByDonorId,
   };
 
 // function find() {
@@ -32,4 +33,12 @@ async function add(user) {
 function findById(id) {
     console.log("FindbyID id: ",id)
   return db("donors").where("donor-id",id).first();
+}
+
+function findAllPickups(){
+  
+}
+
+function findPickupsByDonorId(id){
+
 }
