@@ -24,5 +24,11 @@ router.put("/",authenticator, (req,res)=>{
     }
 })
 
+router.delete("/",authenticator,(req,res)=>{
+    Donors.remove(req.decodedToken.userId).then((success) => {
+        res.status(200).json({message: "Donor deleted."})
+    })
+})
+
   
 module.exports = router;

@@ -22,5 +22,11 @@ router.put("/",authenticator, (req,res)=>{
         })
     }
 })
+
+router.delete("/",authenticator,(req,res)=>{
+    Volunteers.remove(req.decodedToken.userId).then((success) => {
+        res.status(200).json({message: "Volunteer deleted."})
+    })
+})
   
 module.exports = router;

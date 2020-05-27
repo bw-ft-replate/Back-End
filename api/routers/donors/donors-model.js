@@ -5,7 +5,8 @@ module.exports = {
     // find,
     findByUsername,
     findById,
-    update
+    update,
+    remove
   };
 
 // function find() {
@@ -44,4 +45,14 @@ function update(changes,id) {
   .then(() => {
     return findById(id)
   })
+}
+
+async function remove(id){
+  try {
+    await db("donor-volunteer-pickup").where("donor-id",id).del();
+    await db("donors").where("donor-id",id).del();
+  } catch (error ){
+    console.log(error)
+    throw error
+  }
 }
