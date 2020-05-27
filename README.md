@@ -271,6 +271,11 @@ phone | string | 088 234 5607
         "phone": "123 456 789"
 ```
 
+DELETE is working
+route: /api/donors
+
+this will delete the logged in donor
+
 # Volunteers
 
 Put is working
@@ -285,6 +290,11 @@ phone | string | 088 234 5607
 	"name": "Gordilocks volunteer Enterprises",
         "phone": "123 456 789"
 ```
+
+DELETE is working
+route: /api/volunteers
+
+this will delete the logged in volunteer
 # In Progress:
 
 
