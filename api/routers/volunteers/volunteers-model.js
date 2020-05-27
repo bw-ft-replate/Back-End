@@ -5,6 +5,7 @@ module.exports = {
     // find,
     findByUsername,
     findById,
+    update
   };
 
 // function find() {
@@ -36,8 +37,14 @@ async function findById(id) {
   } catch (error) {
     console.log(error)
     throw error;
+  }
 }
 
-  
-  
+function update(changes,id) {
+  return db("volunteers")
+  .where("volunteer-id",id)
+  .update(changes)
+  .then(() => {
+    return findById(id)
+  })
 }

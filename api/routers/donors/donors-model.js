@@ -5,7 +5,7 @@ module.exports = {
     // find,
     findByUsername,
     findById,
-    findPickupsByDonorId,
+    update
   };
 
 // function find() {
@@ -35,10 +35,13 @@ function findById(id) {
   return db("donors").where("donor-id",id).first();
 }
 
-function findAllPickups(){
-  
-}
 
-function findPickupsByDonorId(id){
 
+function update(changes,id) {
+  return db("donors")
+  .where("donor-id",id)
+  .update(changes)
+  .then(() => {
+    return findById(id)
+  })
 }
