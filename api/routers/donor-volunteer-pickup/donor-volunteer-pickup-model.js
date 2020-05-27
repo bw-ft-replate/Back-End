@@ -1,9 +1,7 @@
 
 const db = require("../../../data/dbConfig");
 module.exports = {
-    // add,
     find,
-    //findByUsername,
     findById,
     findByPickupId,
     updateVolunteer,
@@ -12,7 +10,6 @@ module.exports = {
 
 
 function find() {
- 
   return db("donor-volunteer-pickup");
 }
 
@@ -29,14 +26,13 @@ async function findByPickupId(id){
 }
 
 async function findById(role,id) {
-  console.log("Finding",id,role)
   let idType
   let tableName
   try {
     if (role === "donor" || role === "business"){
-      console.log("it's a donor")
       idType = "donor-id"
       tableName = "donors"
+
       return await db.select("*")
             .from("donor-volunteer-pickup")
             .join("pickups", "pickups.pickup-id", "=", "donor-volunteer-pickup.pickup-id")
@@ -54,7 +50,6 @@ async function findById(role,id) {
       .where(`${tableName}.${idType}`, id)
   
     }
-
   } catch (error){
     console.log(error)
     throw error

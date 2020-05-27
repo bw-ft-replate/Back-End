@@ -8,7 +8,9 @@ const authenticator = require("../../auth/authenticator")
 router.get("/", authenticator, async (req,res)=>{
     if(req.decodedToken.role === "donor" || req.decodedToken.role === "business"){
         let donorPickups = []
-        await DonorVolunteerPickup.findById("donor",req.decodedToken.userId).then( async donorVolunteerPickups => {
+
+        await DonorVolunteerPickup.findById("donor",req.decodedToken.userId)
+        .then( async donorVolunteerPickups => {
            for(const pickup of  donorVolunteerPickups){
                 await Volunteers.findById(pickup["volunteer-id"]).then((volunteer) => {
                     if(volunteer){
@@ -47,7 +49,6 @@ router.get("/", authenticator, async (req,res)=>{
             res.status(200).json(donorPickups)
         })
     } else {
-        console.log(req.decodedToken.role)
         role = "volunteer"
         DonorVolunteerPickup.findById("volunteer",req.decodedToken.userId).then(volunteerPickups => {
             res.status(200).json(volunteerPickups)
@@ -55,10 +56,7 @@ router.get("/", authenticator, async (req,res)=>{
         .catch( err => {
             res.status(500).json(err)
         })
-
-    }
-
-    
+    } 
 })
 
 router.put("/assign/:id",authenticator, (req,res)=>{
@@ -70,27 +68,21 @@ router.put("/assign/:id",authenticator, (req,res)=>{
                 if(req.body["volunteer-id"]){
                     DonorVolunteerPickup.updateVolunteer(req.params.id, req.decodedToken.userId)
                     .then(updated=>{
-                        console.log(updated)
                         res.status(201).json({message: `Pickup ${req.params.id} was successfully assigned to user: ${req.decodedToken.userId}`,updated})
                     })
                 } else {
-                    
                     DonorVolunteerPickup.updateVolunteer(req.params.id, null)
                     .then(updated=>{
                         res.status(201).json({message: `Pickup ${req.params.id} was successfully assigned to no user`,updated})
                     })
                 }
-                
             } else {
                 res.status(404).json({message: "Could not find a pickup with the id: "+req.params.id})
             }
-            
-    
         }).catch(err => {
             res.status(500).json({message: "Error while posting to database: ",err})
         })
     }
-    
 })
   
 module.exports = router;

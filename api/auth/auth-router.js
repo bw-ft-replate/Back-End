@@ -3,7 +3,6 @@ const bcryptjs = require("bcryptjs")
 const secrets = require("./secrets")
 const Volunteers = require("../routers/volunteers/volunteers-model")
 const Donors = require("../routers/donors/donors-model.js")
-const Pickups = require("../routers/pickups/pickups-model.js")
 
 const jwt = require("jsonwebtoken")
 
@@ -11,6 +10,7 @@ router.post('/register',credentialValidater, (req, res) => {
     const userDetails = req.body;
     const rounds = process.env.BCRYPT_ROUNDS || 2;
     userDetails.password = bcryptjs.hashSync(userDetails.password, rounds);
+
     if(userDetails.role === "donor" || userDetails.role === "business"){ 
         if(userDetails["name"] && userDetails["address"] && userDetails["phone"]){
             const donor = {
@@ -64,6 +64,7 @@ router.post('/register',credentialValidater, (req, res) => {
 
 router.post("/login",credentialValidater,(req,res)=>{
     const {username, password, role} = req.body;
+
     if (username && password){
         if (role === "donor" || role==="business"){
             Donors.findByUsername(username).then(donor => {
@@ -99,7 +100,6 @@ router.post("/login",credentialValidater,(req,res)=>{
     } else {
         res.status(400).json({message: "please enter a username/password"})
     }
-    
 })
 
 function credentialValidater(req,res,next) {
