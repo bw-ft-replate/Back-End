@@ -282,6 +282,10 @@ route: /api/donors
 
 this will delete the logged in donor
 
+GET is working
+route: /api/donors
+
+this will get the information for the logged in donor
 # Volunteers
 
 Put is working
@@ -301,6 +305,12 @@ DELETE is working
 route: /api/volunteers
 
 this will delete the logged in volunteer
+
+GET is working
+route: /api/volunteers
+
+this will get the information for the logged in volunteer
+
 # In Progress:
 
 
