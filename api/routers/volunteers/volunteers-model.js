@@ -5,6 +5,8 @@ module.exports = {
     // find,
     findByUsername,
     findById,
+    update,
+    remove
   };
 
 // function find() {
@@ -36,8 +38,24 @@ async function findById(id) {
   } catch (error) {
     console.log(error)
     throw error;
+  }
 }
 
-  
-  
+function update(changes,id) {
+  return db("volunteers")
+  .where("volunteer-id",id)
+  .update(changes)
+  .then(() => {
+    return findById(id)
+  })
+}
+
+async function remove(id){
+  try {
+    await db("donor-volunteer-pickup").where("volunteer-id",id).update("volunteer-id",null);
+    await db("volunteers").where("volunteer-id",id).del();
+  } catch (error ){
+    console.log(error)
+    throw error
+  }
 }

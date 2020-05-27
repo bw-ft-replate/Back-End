@@ -5,7 +5,8 @@ module.exports = {
     // find,
     findByUsername,
     findById,
-    findPickupsByDonorId,
+    update,
+    remove
   };
 
 // function find() {
@@ -35,10 +36,23 @@ function findById(id) {
   return db("donors").where("donor-id",id).first();
 }
 
-function findAllPickups(){
-  
+
+
+function update(changes,id) {
+  return db("donors")
+  .where("donor-id",id)
+  .update(changes)
+  .then(() => {
+    return findById(id)
+  })
 }
 
-function findPickupsByDonorId(id){
-
+async function remove(id){
+  try {
+    await db("donor-volunteer-pickup").where("donor-id",id).del();
+    await db("donors").where("donor-id",id).del();
+  } catch (error ){
+    console.log(error)
+    throw error
+  }
 }

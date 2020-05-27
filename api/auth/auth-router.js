@@ -67,6 +67,9 @@ router.post("/login",credentialValidater,(req,res)=>{
     if (username && password){
         if (role === "donor" || role==="business"){
             Donors.findByUsername(username).then(donor => {
+                if (!donor){
+                    res.status(400).json({message: "That donor does not exist"})
+                }
                 if (donor && bcryptjs.compareSync(password, donor.password)){
                     const donorToken = generateToken(donor["donor-id"], "donor")
                     res.status(201).json({message: "Success", token: donorToken})
