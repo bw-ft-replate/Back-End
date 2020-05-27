@@ -7,16 +7,20 @@ const authenticator = require("../../auth/authenticator")
 
 router.put("/",authenticator, (req,res)=>{
     if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
-        let changes = {
-            "business-name": req.body.name,
-            "business-address": req.body.address,
-            "business-phone": req.body.phone
+        if (!req.body.name && !req.body.phone && !req.body.address){
+            res.status(400).json({message: "Please include some changes like: { name: 'new volunteer name' } "})
+        } else {
+            let changes = {
+                "business-name": req.body.name,
+                "business-address": req.body.address,
+                "business-phone": req.body.phone
+            }
+            Donors.update(changes,req.decodedToken.userId).then((updatedVolunter)=> {
+                res.status(201).json(updatedVolunter)
+            }) .catch(error => {
+                res.status(500).json({message: "There was an error udating the volunteer"})
+            })
         }
-        Donors.update(changes,req.decodedToken.userId).then((updatedVolunter)=> {
-            res.status(201).json(updatedVolunter)
-        }) .catch(error => {
-            res.status(500).json({message: "There was an error udating the volunteer"})
-        })
     } else {
         res.status(403).json({message: "only people signed in as donor can edit donor accounts"})        
     }
