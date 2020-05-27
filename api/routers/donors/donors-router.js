@@ -25,9 +25,14 @@ router.put("/",authenticator, (req,res)=>{
 })
 
 router.delete("/",authenticator,(req,res)=>{
-    Donors.remove(req.decodedToken.userId).then((success) => {
-        res.status(200).json({message: "Donor deleted."})
-    })
+    if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
+        Donors.remove(req.decodedToken.userId).then((success) => {
+            res.status(200).json({message: "Donor deleted."})
+        })
+    } else {
+        res.status(403).json({message: "Only donors can delete donor accounts"})
+    }
+    
 })
 
   
