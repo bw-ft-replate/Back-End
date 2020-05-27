@@ -254,6 +254,12 @@ returns:
 }
 ```
 
+#### Delete ####
+
+route: /api/pickups/:id
+
+This will delete the pickup with the associated pickup-id of :id. Can only be done by donors, and only by the donor that the pickup is associated with. 
+
 # Donors
 
 Put is working
