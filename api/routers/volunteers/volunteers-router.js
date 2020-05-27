@@ -27,5 +27,20 @@ router.delete("/",authenticator,(req,res)=>{
         })
     }
 })
+
+router.get("/",authenticator,(req,res)=>{
+    if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
+        res.status(403).json({message: "Only volunteers can fetch volunteer accounts"})
+    } else {
+        Volunteers.findById(req.decodedToken.userId)
+        .then((volunteer) => {
+            res.status(200).json(volunteer)
+        })
+        .catch((err)=>{
+            res.status(500).json({err})
+        })
+        
+    }
+})
   
 module.exports = router;

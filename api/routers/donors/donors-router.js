@@ -32,5 +32,19 @@ router.delete("/",authenticator,(req,res)=>{
     }
 })
 
+router.get("/",authenticator,(req,res)=>{
+    if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
+        Donors.findById(req.decodedToken.userId)
+        .then((donor) => {
+            res.status(200).json(donor)
+        })
+        .catch((err)=>{
+            res.status(500).json({err})
+        })
+    } else {
+        res.status(403).json({message: "Only donors can fetch donor accounts"})
+    }
+})
+
   
 module.exports = router;
