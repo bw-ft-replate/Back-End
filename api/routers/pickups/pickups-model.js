@@ -3,7 +3,6 @@ const db = require("../../../data/dbConfig");
 module.exports = {
     add,
     find,
-    //findByUsername,
     findById,
     findUnassigned,
     update,
@@ -12,24 +11,18 @@ module.exports = {
   };
 
 async function add(pickup,donorId) {   
-try {
-    const [id] = await db("pickups").insert(pickup, "pickup-id");
-    await db("donor-volunteer-pickup").insert({"donor-id": donorId, "pickup-id":id})
-    console.log(id)
-    return findById(id);
-} catch (error) {
-    console.log(error)
-    throw error;
-}
+  try {
+      const [id] = await db("pickups").insert(pickup, "pickup-id");
+      await db("donor-volunteer-pickup").insert({"donor-id": donorId, "pickup-id":id})
+      return findById(id);
+  } catch (error) {
+      throw error;
+  }
 }
 
 function find() {
     return db("pickups");
 }
-
-// function findByUsername(username){
-//   return db("donors").where({username:username}).first();
-// }
 
 async function findUnassigned() {
   try {
@@ -40,13 +33,11 @@ async function findUnassigned() {
       .join("donors as d", "d.donor-id","=", "dvp.donor-id")
       .where("dvp.volunteer-id",null)
   } catch(error){
-    console.log(error)
     throw error
   }  
 }
 
 function findById(id) {
-  console.log("FindbyID id: ",id)
   return db("pickups").where("pickup-id",id).first();
 }
 

@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken")
 const authenticator = require("../../auth/authenticator")
 
 router.put("/",authenticator, (req,res)=>{
-    console.log(req.body)
     if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
         let changes = {
             "business-name": req.body.name,
@@ -14,7 +13,6 @@ router.put("/",authenticator, (req,res)=>{
             "business-phone": req.body.phone
         }
         Donors.update(changes,req.decodedToken.userId).then((updatedVolunter)=> {
-            console.log(updatedVolunter)
             res.status(201).json(updatedVolunter)
         }) .catch(error => {
             res.status(500).json({message: "There was an error udating the volunteer"})
@@ -32,7 +30,6 @@ router.delete("/",authenticator,(req,res)=>{
     } else {
         res.status(403).json({message: "Only donors can delete donor accounts"})
     }
-    
 })
 
   

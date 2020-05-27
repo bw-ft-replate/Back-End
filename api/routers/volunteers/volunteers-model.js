@@ -2,16 +2,11 @@ const db = require("../../../data/dbConfig");
 
 module.exports = {
     add,
-    // find,
     findByUsername,
     findById,
     update,
     remove
   };
-
-// function find() {
-//     return db("users").select("id", "username");
-// }
 
 function findByUsername(username){
   console.log("Find by username",username)
@@ -19,12 +14,8 @@ function findByUsername(username){
 }
 
 async function add(user) {
-
-    console.log("volunteer in model:",user)
-    
   try {
     const [id] = await db("volunteers").insert(user, "volunteer-id");
-    console.log(id)
     return findById(id);
   } catch (error) {
       console.log(error)
