@@ -220,7 +220,7 @@ returns:
     "updated": 1
 }
 ```
-##### donor put #####
+##### pickups put #####
 Donors can now PUT and edit the pickups they have created
 /api/pickups/:id
 
@@ -256,8 +256,35 @@ returns:
 
 # Donors
 
+Put is working
+route: /api/donors
+
+key | type | example
+---|---|---
+name | string | ACNE
+address | string | 123 Parklane Dr
+phone | string | 088 234 5607
+
+```
+	"name": "Gordilocks volunteer Enterprises",
+        "address": "1 User Way, Userville",
+        "phone": "123 456 789"
+```
+
 # Volunteers
 
+Put is working
+route: /api/volunteers
+
+key | type | example
+---|---|---
+name | string | ACNE
+phone | string | 088 234 5607
+
+```
+	"name": "Gordilocks volunteer Enterprises",
+        "phone": "123 456 789"
+```
 # In Progress:
 
 
