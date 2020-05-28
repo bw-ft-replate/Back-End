@@ -8,7 +8,7 @@ const authenticator = require("../../auth/authenticator")
 router.put("/",authenticator, (req,res)=>{
     if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
         if (!req.body.name && !req.body.phone && !req.body.address){
-            res.status(400).json({message: "Please include some changes like: { name: 'new volunteer name' } "})
+            res.status(400).json({message: "Please include some changes like: { name: 'new donor name' } "})
         } else {
             let changes = {
                 "business-name": req.body.name,
@@ -18,7 +18,7 @@ router.put("/",authenticator, (req,res)=>{
             Donors.update(changes,req.decodedToken.userId).then((updatedVolunter)=> {
                 res.status(201).json(updatedVolunter)
             }) .catch(error => {
-                res.status(500).json({message: "There was an error udating the volunteer"})
+                res.status(500).json({message: "There was an error udating the donor"})
             })
         }
     } else {

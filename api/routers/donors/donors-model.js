@@ -39,7 +39,6 @@ async function remove(id){
     await db("donor-volunteer-pickup").where("donor-id",id).del();
     await db("donors").where("donor-id",id).del();
   } catch (error ){
-    console.log(error)
     throw error
   }
 }

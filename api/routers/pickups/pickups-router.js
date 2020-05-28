@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const Pickups = require("./pickups-model.js")
 const DonorVolunteerPickup = require("../donor-volunteer-pickup/donor-volunteer-pickup-model")
-const moment = require("moment")
 const authenticator = require("../../auth/authenticator")
 
 router.get("/all", (req,res)=>{
