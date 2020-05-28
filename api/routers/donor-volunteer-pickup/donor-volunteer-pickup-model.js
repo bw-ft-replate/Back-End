@@ -18,7 +18,6 @@ async function findByPickupId(id){
     const data = await db("donor-volunteer-pickup").where("pickup-id",id).first();
     return data
   } catch(error){
-    console.log(error)
     throw error
   }
   
@@ -51,7 +50,6 @@ async function findById(role,id) {
   
     }
   } catch (error){
-    console.log(error)
     throw error
   }
   
@@ -61,7 +59,6 @@ async function updateVolunteer(id,volunteerId) {
   try {
     return await db("donor-volunteer-pickup").where("pickup-id", id).update("volunteer-id", volunteerId)
   } catch(error){
-    console.log(error)
     throw error
   }
 }

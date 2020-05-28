@@ -9,7 +9,6 @@ module.exports = {
   };
 
 function findByUsername(username){
-  console.log("Find by username",username)
   return db("volunteers").where({username:username}).first();
 }
 
@@ -18,19 +17,15 @@ async function add(user) {
     const [id] = await db("volunteers").insert(user, "volunteer-id");
     return findById(id);
   } catch (error) {
-      console.log(error)
     throw error;
   }
 }
 
 async function findById(id) {
-  console.log("id:",id)
   try {
     const v =  await db("volunteers").where("volunteer-id",id).first();
-    console.log(v)
     return v
   } catch (error) {
-    console.log(error)
     throw error;
   }
 }
@@ -49,7 +44,6 @@ async function remove(id){
     await db("donor-volunteer-pickup").where("volunteer-id",id).update("volunteer-id",null);
     await db("volunteers").where("volunteer-id",id).del();
   } catch (error ){
-    console.log(error)
     throw error
   }
 }
