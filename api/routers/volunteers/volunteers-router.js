@@ -6,15 +6,20 @@ router.put("/",authenticator, (req,res)=>{
     if(req.decodedToken.role === "donor" || req.decodedToken === "business"){
         res.status(403).json({message: "only people signed in as volunteers can edit volunteer accounts"})
     } else {
-        let changes = {
-            "volunteer-name": req.body.name,
-            "volunteer-phone": req.body.phone
+        if (!req.body.name && !req.body.phone){
+            res.status(400).json({message: "Please include some changes like: { name: 'new volunteer name' } "})
+        } else {
+            let changes = {
+                "volunteer-name": req.body.name,
+                "volunteer-phone": req.body.phone
+            }
+            Volunteers.update(changes,req.decodedToken.userId).then((updatedVolunter)=> {
+                res.status(201).json(updatedVolunter)
+            }) .catch(error => {
+                res.status(500).json({message: "There was an error udating the volunteer"})
+            })
         }
-        Volunteers.update(changes,req.decodedToken.userId).then((updatedVolunter)=> {
-            res.status(201).json(updatedVolunter)
-        }) .catch(error => {
-            res.status(500).json({message: "There was an error udating the volunteer"})
-        })
+        
     }
 })
 

@@ -1,9 +1,6 @@
 
 exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('donor-volunteer-pickup').del()
-    .then(function () {
-      // Inserts seed entries
+ 
       return knex('donor-volunteer-pickup').insert([
         {
           "donor-id": 1,
@@ -21,5 +18,5 @@ exports.seed = function(knex) {
           "volunteer-id": null,
         },
       ]);
-    });
+
 };
