@@ -311,28 +311,3 @@ route: /api/volunteers
 
 this will get the information for the logged in volunteer
 
-# In Progress:
-
-
-RUD donors
-RUD volunteers
-UD pickups
-
-DONOR:
-id  username    business-name     address         phone         password
-1   gordon  gordonenterprises   1 gordon way    0899109402      
-2   kate
-
-VOLUNTEER
-id  username    volunteer-name  phone                           password
-1   kate    kateenterprises     090-12389123                    809238409oisdjhf098asdfkhj123.12098309iasdf,..123981209380123
-2   gordon
-
-PICKUP
-1   pears  1lb                 1 april 2020
-
-VOLUNTEER-DONOR-PICKUP
-1   donor-id    volunteer-id     pickup-id
-
-
-Pickup of apples, belongs to gordonenterprises(donor), assigned to kateenterprises(volunteer), to be picked up by 1 april 2020, gordonenterprises address, gordonenterprises phone number, kateenterprises phone number
